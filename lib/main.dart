@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uy1money/api/AuthService.dart';
 import 'package:uy1money/screen/login.dart';
 import 'package:uy1money/screen/my_homePage.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthService()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final authService = context.watch<AuthService>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -26,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Login(),
+      home: !authService.authenticate ? Login() : MyHomePage(),
     );
   }
 }

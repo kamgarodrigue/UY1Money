@@ -5,9 +5,11 @@ class Input extends StatefulWidget {
   String? hintText;
   Widget suffixIcon, prefixIcon;
   bool? isTel;
+  final ValueChanged<String> onChanged;
   Input(
       {Key? key,
       required this.hintText,
+      required this.onChanged,
       required this.isTel,
       required this.prefixIcon,
       required this.suffixIcon})

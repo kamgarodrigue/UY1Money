@@ -13,10 +13,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String? email, psw;
   @override
   Widget build(BuildContext context) {
     final heigth = MediaQuery.of(context).size.height;
     final widht = MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: BG_COLOR,
         body: Container(
@@ -73,6 +75,9 @@ class _LoginState extends State<Login> {
                 height: 40,
               ),
               Input(
+                  onChanged: (value) {
+                    email = value;
+                  },
                   isTel: false,
                   hintText: "Nom d’utilisateur",
                   prefixIcon: Icon(
@@ -84,6 +89,9 @@ class _LoginState extends State<Login> {
                 height: 32,
               ),
               Input(
+                  onChanged: (value) {
+                    psw = value;
+                  },
                   isTel: false,
                   hintText: "Mot de passe",
                   prefixIcon: Icon(Icons.lock_outline, color: Colors.white),

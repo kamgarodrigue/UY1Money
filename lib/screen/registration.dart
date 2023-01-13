@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:provider/provider.dart';
+import 'package:uy1money/api/AuthService.dart';
 import 'package:uy1money/colors.dart';
+import 'package:uy1money/model/client.dart';
 import 'package:uy1money/screen/Input.dart';
 import 'package:uy1money/screen/login.dart';
 import 'package:uy1money/screen/my_homePage.dart';
@@ -18,6 +21,14 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     final heigth = MediaQuery.of(context).size.height;
     final widht = MediaQuery.of(context).size.width;
+    Client client = Client(
+        id: "",
+        login: "",
+        nom: "",
+        password: "",
+        prenom: "",
+        compte: null,
+        telephone: "");
     return Scaffold(
         backgroundColor: BG_COLOR,
         body: Container(
@@ -74,6 +85,10 @@ class _RegisterState extends State<Register> {
                 height: 32,
               ),
               Input(
+                  onChanged: (value) {
+                    client.nom = value;
+                    client.login = value;
+                  },
                   isTel: false,
                   hintText: "Nom",
                   prefixIcon: Icon(Icons.person_outlined),
@@ -82,14 +97,20 @@ class _RegisterState extends State<Register> {
                 height: 32,
               ),
               Input(
+                  onChanged: (value) {
+                    client.prenom;
+                  },
                   isTel: false,
-                  hintText: "Email",
+                  hintText: "email",
                   prefixIcon: Icon(Icons.mail_outline),
                   suffixIcon: Image.asset("assets/images/_.png")),
               const SizedBox(
                 height: 32,
               ),
               Input(
+                  onChanged: (value) {
+                    client.password = value;
+                  },
                   isTel: false,
                   hintText: "Mot de passe",
                   prefixIcon: Icon(Icons.lock_outline),
@@ -106,6 +127,7 @@ class _RegisterState extends State<Register> {
                     fontFamily: "Poppins-medium"),
                 onInputChanged: (PhoneNumber number) {
                   print(number.phoneNumber);
+                  client.telephone = number.phoneNumber;
                 },
                 onInputValidated: (bool value) {
                   print(value);
@@ -178,6 +200,13 @@ class _RegisterState extends State<Register> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      context
+                          .read<AuthService>()
+                          .register(client)
+                          .then((value) {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => Login()));
+                      });
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => Login()));
                     },
